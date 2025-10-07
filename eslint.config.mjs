@@ -1,6 +1,7 @@
 import js from "@eslint/js";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
+import globals from "globals";
 
 /** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
@@ -14,13 +15,18 @@ export default [
         ecmaVersion: "latest",
         sourceType: "module",
         projectService: true
+      },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        Bun: "readonly"
       }
     },
     plugins: {
       "@typescript-eslint": tsPlugin
     },
     rules: {
-      "no-console": ["warn", { allow: ["warn", "error"] }]
+      "no-console": ["warn", { allow: ["warn", "error", "info"] }]
     }
   }
 ];

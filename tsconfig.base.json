@@ -2,10 +2,8 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "moduleDetection": "force",
-    "allowImportingTsExtensions": true,
-    "moduleSuffixes": [".ts", ".tsx", ".js", ".jsx", ".mts"],
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -14,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "rootDir": ".",
     "baseUrl": ".",
-    "types": ["bun-types"],
+    "noEmit": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
       "@ui/*": ["packages/ui/src/*"],

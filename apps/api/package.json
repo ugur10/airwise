@@ -1,0 +1,26 @@
+{
+  "name": "@airwise/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Hono + Bun API for AirWise loyalty program calculations.",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "start": "bun run src/server.ts",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "lint": "eslint --max-warnings=0 \"src/**/*.{ts,tsx}\"",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.7.3",
+    "hono": "^4.4.6",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "eslint": "^8.57.0",
+    "vitest": "^1.5.2"
+  }
+}
