@@ -20,7 +20,10 @@
     "lint:base": "eslint --max-warnings=0 .",
     "format": "prettier --write .",
     "typecheck": "tsc --build tsconfig.base.json",
-    "test": "echo \"No tests defined yet\""
+    "test": "echo \"No tests defined yet\"",
+    "dev:api": "bun run --filter @airwise/api dev",
+    "dev:web": "bun run --filter @airwise/web dev",
+    "check:web": "bun run --filter @airwise/web check"
   },
   "dependencies": {},
   "devDependencies": {
@@ -32,6 +35,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-svelte": "^2.39.0",
+    "svelte-eslint-parser": "^0.34.0",
     "globals": "^13.24.0",
     "husky": "^9.1.4",
     "lint-staged": "^15.2.7",
