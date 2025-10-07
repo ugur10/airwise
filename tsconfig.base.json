@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "NodeNext",
+    "moduleDetection": "force",
+    "allowImportingTsExtensions": true,
+    "moduleSuffixes": [".ts", ".tsx", ".js", ".jsx", ".mts"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": ".",
+    "baseUrl": ".",
+    "types": ["bun-types"],
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@ui/*": ["packages/ui/src/*"],
+      "@config/*": ["packages/config/src/*"],
+      "@api/*": ["apps/api/src/*"],
+      "@web/*": ["apps/web/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist", "build", ".svelte-kit"]
+}
