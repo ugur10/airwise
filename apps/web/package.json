@@ -5,15 +5,16 @@
   "type": "module",
   "description": "Svelte 5 front-end for the AirWise airline loyalty ROI calculator.",
   "scripts": {
-    "dev": "svelte-kit dev --host",
-    "build": "svelte-kit sync && svelte-kit build",
-    "preview": "svelte-kit preview --host",
+    "dev": "vite dev --host",
+    "build": "svelte-kit sync && vite build",
+    "preview": "vite preview --host",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "lint": "eslint --max-warnings=0 \"src/**/*.{ts,svelte}\"",
     "test": "vitest",
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@airwise/ui": "workspace:*",
     "@sveltejs/kit": "^2.6.5",
     "@tanstack/svelte-query": "^5.59.7",
     "clsx": "^2.0.0",

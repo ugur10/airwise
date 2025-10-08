@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import clsx from "clsx";
+  import { SurfaceCard, Button, MetricPill } from "@ui/components";
   import type { TravelProfile } from "../types";
 
   const dispatch = createEventDispatcher<{
@@ -17,9 +18,6 @@
 
   const airportOptions = ["ATL", "DFW", "DEN", "JFK", "LAX", "ORD", "SFO", "SEA"];
 
-  const routeButtonClasses = "rounded-2xl border px-4 py-3 text-sm font-medium transition-colors hover:border-sky-500/60 hover:bg-sky-500/10";
-  const cabinButtonClasses = "rounded-2xl border px-4 py-3 text-sm font-medium transition-colors hover:border-amber-500/60 hover:bg-amber-500/10";
-
   const emitChange = () => {
     dispatch("change", profile);
   };
@@ -30,150 +28,124 @@
   };
 </script>
 
-<form class="space-y-6 rounded-3xl border border-white/10 bg-white/5 p-8 backdrop-blur" onsubmit={handleSubmit}>
-  <header class="space-y-2">
-    <h2 class="font-heading text-2xl font-semibold tracking-tight text-white">Your flying pattern</h2>
-    <p class="text-sm text-slate-300">
-      We’ll use these inputs to model earning rates and elite projections across each airline.
-    </p>
-  </header>
+<SurfaceCard
+  description="Dial in your travel profile to see which airline loyalty ecosystem accelerates status and maximizes redemption value."
+  headline="Your flying pattern"
+  highlight
+>
+  <form class="space-y-10" onsubmit={handleSubmit}>
+    <div class="grid gap-8 xl:grid-cols-[minmax(0,0.65fr)_minmax(0,1fr)]">
+      <div class="space-y-6 rounded-2xl border border-white/10 bg-white/[0.05] p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+        <span class="text-xs uppercase tracking-[0.3em] text-brand-200">Snapshot</span>
+        <div class="space-y-5">
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-200">Home airport</span>
+            <div class="relative">
+              <select
+                class="w-full appearance-none rounded-2xl border border-white/15 bg-slate-950/70 px-4 py-3 text-sm font-medium text-white shadow-inner shadow-black/20 focus:border-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-300/40"
+                bind:value={profile.homeAirport}
+                onchange={emitChange}
+              >
+                {#each airportOptions as code}
+                  <option value={code}>{code}</option>
+                {/each}
+              </select>
+            </div>
+          </label>
 
-  <div class="grid gap-5 md:grid-cols-2">
-    <label class="space-y-2">
-      <span class="text-sm font-medium text-slate-200">Home airport</span>
-      <select
-        class="rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm font-medium text-white focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
-        bind:value={profile.homeAirport}
-        onchange={emitChange}
-      >
-        {#each airportOptions as code}
-          <option value={code}>{code}</option>
-        {/each}
-      </select>
-    </label>
+          <label class="space-y-2">
+            <span class="text-sm font-medium text-slate-200">Flights per year</span>
+            <div class="rounded-2xl border border-white/10 bg-slate-950/70 px-4 py-3 shadow-inner shadow-black/20">
+              <input
+                class="w-full bg-transparent text-sm font-medium text-white focus:outline-none"
+                type="number"
+                min="0"
+                max="200"
+                bind:value={profile.annualFlights}
+                oninput={emitChange}
+              />
+            </div>
+            <div class="flex items-center justify-between text-xs text-slate-400">
+              <span>0</span>
+              <span>200+</span>
+            </div>
+          </label>
 
-    <label class="space-y-2">
-      <span class="text-sm font-medium text-slate-200">Flights per year</span>
-      <input
-        class="w-full rounded-2xl border border-white/10 bg-slate-900/80 px-4 py-3 text-sm font-medium text-white focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-500/40"
-        type="number"
-        min="0"
-        max="200"
-        bind:value={profile.annualFlights}
-        oninput={emitChange}
-      />
-      <div class="flex items-center justify-between text-xs text-slate-400">
-        <span>0</span>
-        <span>200+</span>
+          <div class="mt-6 grid gap-3 text-xs text-slate-300">
+            <MetricPill label="Status focus" value={profile.routeType === "international" ? "Global network" : "Domestic hubs"} />
+            <MetricPill label="Cabin mix" tone="amber" value={profile.cabinClass === "business" ? "Premium-heavy" : "Blended"} />
+          </div>
+        </div>
       </div>
-    </label>
-  </div>
 
-  <div class="grid gap-5 md:grid-cols-2">
-    <fieldset class="space-y-3">
-      <legend class="text-sm font-medium text-slate-200">Typical route mix</legend>
-      <div class="grid gap-3 sm:grid-cols-3">
-        <button
-          type="button"
-          class={clsx(routeButtonClasses, {
-            "border-sky-500 bg-sky-500/10 text-white": profile.routeType === "domestic",
-            "border-white/10 text-slate-200": profile.routeType !== "domestic"
-          })}
-          onclick={() => {
-            profile.routeType = "domestic";
-            emitChange();
-          }}
-        >
-          Domestic
-        </button>
+      <div class="space-y-8">
+        <fieldset class="space-y-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+          <legend class="text-sm font-medium uppercase tracking-[0.2em] text-slate-300">Typical route mix</legend>
+          <p class="text-sm text-slate-400">
+            Choose the route pattern that best mirrors your yearly flying and we’ll weight international bonuses accordingly.
+          </p>
+          <div class="grid gap-3 sm:grid-cols-3">
+            {#each [
+              { label: "Domestic", value: "domestic" },
+              { label: "International", value: "international" },
+              { label: "Mixed", value: "mixed" }
+            ] as option}
+              <button
+                type="button"
+                class={clsx(
+                  "rounded-2xl border px-4 py-3 text-sm font-medium transition-all",
+                  profile.routeType === option.value
+                    ? "border-brand-400/70 bg-brand-400/15 text-white"
+                    : "border-white/15 text-slate-300 hover:border-brand-400/40 hover:text-white"
+                )}
+                onclick={() => {
+                  profile.routeType = option.value as typeof profile.routeType;
+                  emitChange();
+                }}
+              >
+                {option.label}
+              </button>
+            {/each}
+          </div>
+        </fieldset>
 
-        <button
-          type="button"
-          class={clsx(routeButtonClasses, {
-            "border-sky-500 bg-sky-500/10 text-white": profile.routeType === "international",
-            "border-white/10 text-slate-200": profile.routeType !== "international"
-          })}
-          onclick={() => {
-            profile.routeType = "international";
-            emitChange();
-          }}
-        >
-          International
-        </button>
-
-        <button
-          type="button"
-          class={clsx(routeButtonClasses, {
-            "border-sky-500 bg-sky-500/10 text-white": profile.routeType === "mixed",
-            "border-white/10 text-slate-200": profile.routeType !== "mixed"
-          })}
-          onclick={() => {
-            profile.routeType = "mixed";
-            emitChange();
-          }}
-        >
-          Mixed
-        </button>
+        <fieldset class="space-y-5 rounded-2xl border border-white/10 bg-white/[0.02] p-6">
+          <legend class="text-sm font-medium uppercase tracking-[0.2em] text-slate-300">Cabin preference</legend>
+          <p class="text-sm text-slate-400">
+            Cabin class directly influences both elite qualification and the baseline value of your points.
+          </p>
+          <div class="grid gap-3 sm:grid-cols-3">
+            {#each [
+              { label: "Economy", value: "economy" },
+              { label: "Premium", value: "premiumEconomy" },
+              { label: "Business", value: "business" }
+            ] as option}
+              <button
+                type="button"
+                class={clsx(
+                  "rounded-2xl border px-4 py-3 text-sm font-medium transition-all",
+                  profile.cabinClass === option.value
+                    ? "border-amber-300/70 bg-amber-400/10 text-white"
+                    : "border-white/15 text-slate-300 hover:border-amber-300/45 hover:text-white"
+                )}
+                onclick={() => {
+                  profile.cabinClass = option.value as typeof profile.cabinClass;
+                  emitChange();
+                }}
+              >
+                {option.label}
+              </button>
+            {/each}
+          </div>
+        </fieldset>
       </div>
-    </fieldset>
+    </div>
 
-    <fieldset class="space-y-3">
-      <legend class="text-sm font-medium text-slate-200">Cabin preference</legend>
-      <div class="grid gap-3 sm:grid-cols-3">
-        <button
-          type="button"
-          class={clsx(cabinButtonClasses, {
-            "border-amber-400 bg-amber-500/10 text-white": profile.cabinClass === "economy",
-            "border-white/10 text-slate-200": profile.cabinClass !== "economy"
-          })}
-          onclick={() => {
-            profile.cabinClass = "economy";
-            emitChange();
-          }}
-        >
-          Economy
-        </button>
-
-        <button
-          type="button"
-          class={clsx(cabinButtonClasses, {
-            "border-amber-400 bg-amber-500/10 text-white": profile.cabinClass === "premiumEconomy",
-            "border-white/10 text-slate-200": profile.cabinClass !== "premiumEconomy"
-          })}
-          onclick={() => {
-            profile.cabinClass = "premiumEconomy";
-            emitChange();
-          }}
-        >
-          Premium
-        </button>
-
-        <button
-          type="button"
-          class={clsx(cabinButtonClasses, {
-            "border-amber-400 bg-amber-500/10 text-white": profile.cabinClass === "business",
-            "border-white/10 text-slate-200": profile.cabinClass !== "business"
-          })}
-          onclick={() => {
-            profile.cabinClass = "business";
-            emitChange();
-          }}
-        >
-          Business
-        </button>
-      </div>
-    </fieldset>
-  </div>
-
-  <div class="flex items-center justify-between">
-    <p class="text-xs text-slate-400">
-      AirWise will soon support multi-airport home bases and partner airline weighting.
-    </p>
-    <button
-      type="submit"
-      class="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 px-6 py-3 text-sm font-semibold text-slate-950 shadow-lg shadow-sky-500/25 transition-transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-sky-400/60"
-    >
-      Calculate ROI
-    </button>
-  </div>
-</form>
+    <div class="flex flex-wrap items-center justify-between gap-5 rounded-2xl border border-dashed border-white/15 bg-white/[0.02] px-5 py-4 text-xs text-slate-400">
+      <span>Coming soon: multi-origin profiles, partner preference weightings, and credit card boosts.</span>
+      <Button intent="primary" size="lg" type="submit">
+        Calculate ROI
+      </Button>
+    </div>
+  </form>
+</SurfaceCard>

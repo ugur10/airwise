@@ -10,7 +10,8 @@ const config = {
       "@components": "./src/lib/components",
       "@features": "./src/features",
       "@styles": "./src/lib/styles",
-      "@utils": "./src/lib/utils"
+      "@utils": "./src/lib/utils",
+      "@ui": "../../packages/ui/src"
     }
   }
 };

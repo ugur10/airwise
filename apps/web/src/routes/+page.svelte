@@ -82,7 +82,7 @@
   headline="Model your loyalty ROI across carriers"
   description="Plug in your travel habits, see which airline unlocks the highest value, and understand the elite journey required to get there."
 >
-  <div slot="primary" class="space-y-8">
+  <div slot="primary" class="mx-auto w-full max-w-5xl">
     <TravelProfileForm
       on:change={(event: CustomEvent<TravelProfile>) => {
         profile.homeAirport = event.detail.homeAirport;
@@ -100,7 +100,7 @@
     />
   </div>
 
-  <div slot="secondary" class="space-y-6">
+  <div slot="secondary" class="w-full">
     <ProgramRankings data={rankings} loading={loading} />
   </div>
 </AppShell>

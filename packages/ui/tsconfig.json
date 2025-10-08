@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": []
+  },
+  "include": ["src/**/*.ts", "tailwind.config.ts", "postcss.config.cjs"],
+  "exclude": ["dist"]
+}
